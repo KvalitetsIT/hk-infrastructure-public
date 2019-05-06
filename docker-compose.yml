@@ -33,37 +33,6 @@ services:
       - "8092:80"
    mongo:
      image: mongo:3.3
-   app-a-saml-sp:
-     image: kitdocker.kvalitetsit.dk/kvalitetsit/serviceprovider-spapp:136a7e31f9304f6ac9d5186c45d5004ce8063459
-     volumes:
-      - ./appa/config:/certificates
-     environment:
-      - IDP_METADATA_URL=http://citizen-venliglogin/venliglogin/saml2/idp/metadata.php
-      - IDP_LOGIN_URL=http://localhost:8092/venliglogin/saml2/idp/SSOService.php
-      - CERTIFICATE=/certificates/appa.cert
-      - KEY=/certificates/appa.pem
-      - SP_ENTITY_ID=dev:kit:appa
-      - SAML_LB_SCHEME=http
-      - SAML_LB_SERVERNAME=localhost
-      - SAML_LB_SERVERPORT=8082
-      - APP_CONTEXT=appa
-      - MONGODB=mongo
-      - MONGODB_DATABASE=mongo_appa
-   app-a:
-     image: kitdocker.kvalitetsit.dk/kvalitetsit/serviceprovider-spviewer:efdd0ca4ca9723ebf0d97316b047e306b597b1f0
-     environment:
-      - PROXY_HOST=app-a-sp-proxy
-   app-a-sp-proxy:
-     image: kitdocker.kvalitetsit.dk/kvalitetsit/serviceprovider-spproxy:efdd0ca4ca9723ebf0d97316b047e306b597b1f0
-     environment:
-      - ENDPOINT_URL=http://app-a:8080/
-      - SAML_URL=http://app-a-saml-sp:8080/
-      - CONTEXT=appa
-      - MONGODB=mongo
-      - MONGODB_DATABASE=mongo_appa
-      - CORRELATION_ID=correlation-id
-     ports:
-      - "8082:80"
    venliglogin-profileservice:  
      image: kitdocker.kvalitetsit.dk/kvalitetsit/venliglogin-profileservice:dc70239bb74378222e7a7ec4982084e9ff7dd1c0
      environment:
