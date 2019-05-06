@@ -1,0 +1,127 @@
+version: '2'
+services:
+   kitidp-theme:
+     image: kitdocker.kvalitetsit.dk/kvalitetsit/ekffidptheme:54b06eaf051db57b25409e7c09e1dadcaee032ee
+   citizen-venliglogin:
+     image: kitdocker.kvalitetsit.dk/kvalitetsit/venliglogin-proxyidp:dc70239bb74378222e7a7ec4982084e9ff7dd1c0
+     entrypoint: bash -c "ln -nsf /kitmodule /var/venliglogin/modules/kitmodule; ln -nsf /kitmodule /var/venliglogin-idp/modules/kitmodule; /entrypoint.sh"
+     depends_on:
+      - kitidp-theme
+     volumes_from:
+      - kitidp-theme
+     volumes:
+      - ./venliglogin/cert:/cert
+      - ./venliglogin/venliglogin-metadata:/metadata
+      - ./venliglogin/venliglogin-auth:/metadata-auth
+     environment:
+      - IDP_CERTIFICATE=server.crt
+      - IDP_PRIVATE_KEY=server.pem
+      - IDP_ADMIN_PASSWORD=test123
+      - IDP_TECHNICAL_EMAIL=eva@kvalitetsit.dk
+      - IDP_SECRET_SALT=abcd23poiu
+      - IDP_HOSTNAME=localhost:8092
+      - UID_ATTRIBUTE=urn:dk:gov:saml:cprNumberIdentification
+      - IDP_CONTEXTPATH=venliglogin
+      - IDP_PROTOCOL=http
+      - IDP_THEME=kitmodule:kittheme 
+      - VENLIGLOGIN_PROFILESERVICE_URL=http://venliglogin-profileservice:8090/vlps
+      - VENLIGLOGIN_WEBGUI_URL=http://localhost:8083/vlss
+      - PINCODE_LENGTH=4       
+      - LOG_LEVEL=INFO
+      - CORRELATION_ID=correlation-id
+     ports:
+      - "8092:80"
+   mongo:
+     image: mongo:3.3
+   app-a-saml-sp:
+     image: kitdocker.kvalitetsit.dk/kvalitetsit/serviceprovider-spapp:136a7e31f9304f6ac9d5186c45d5004ce8063459
+     volumes:
+      - ./appa/config:/certificates
+     environment:
+      - IDP_METADATA_URL=http://citizen-venliglogin/venliglogin/saml2/idp/metadata.php
+      - IDP_LOGIN_URL=http://localhost:8092/venliglogin/saml2/idp/SSOService.php
+      - CERTIFICATE=/certificates/appa.cert
+      - KEY=/certificates/appa.pem
+      - SP_ENTITY_ID=dev:kit:appa
+      - SAML_LB_SCHEME=http
+      - SAML_LB_SERVERNAME=localhost
+      - SAML_LB_SERVERPORT=8082
+      - APP_CONTEXT=appa
+      - MONGODB=mongo
+      - MONGODB_DATABASE=mongo_appa
+   app-a:
+     image: kitdocker.kvalitetsit.dk/kvalitetsit/serviceprovider-spviewer:efdd0ca4ca9723ebf0d97316b047e306b597b1f0
+     environment:
+      - PROXY_HOST=app-a-sp-proxy
+   app-a-sp-proxy:
+     image: kitdocker.kvalitetsit.dk/kvalitetsit/serviceprovider-spproxy:efdd0ca4ca9723ebf0d97316b047e306b597b1f0
+     environment:
+      - ENDPOINT_URL=http://app-a:8080/
+      - SAML_URL=http://app-a-saml-sp:8080/
+      - CONTEXT=appa
+      - MONGODB=mongo
+      - MONGODB_DATABASE=mongo_appa
+      - CORRELATION_ID=correlation-id
+     ports:
+      - "8082:80"
+   venliglogin-profileservice:  
+     image: kitdocker.kvalitetsit.dk/kvalitetsit/venliglogin-profileservice:dc70239bb74378222e7a7ec4982084e9ff7dd1c0
+     environment:
+      - CONTEXT=vlps
+      - SERVER_PORT=8090
+      - DB_DRIVER=com.mysql.jdbc.Driver
+      - DB_PASSWORD=vlps1234
+      - DB_USERNAME=vlps
+      - DB_URL=jdbc:mysql://mysqldb:3306/vlps 
+      - UID_KEY=urn:dk:gov:saml:cprNumberIdentification
+      - USERSERVICE_URL=http://venliglogin-webgui-sp-proxy
+      - PINCODE_LENGTH=4
+      - MAX_FAILED_ATTEMPTS=3
+      - LOG_LEVEL=DEBUG
+      - JVM_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+     ports:
+      - "8003:8090"
+      - "5005:5005"
+   mysqldb:
+    image: mysql/mysql-server:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=my-secret-pw
+      - MYSQL_DATABASE=vlps
+      - MYSQL_USER=vlps
+      - MYSQL_PASSWORD=vlps1234
+    ports:
+      - "3306:3306"
+   venliglogin-webgui:
+    image: kitdocker.kvalitetsit.dk/kvalitetsit/venliglogin-webgui:dc70239bb74378222e7a7ec4982084e9ff7dd1c0
+    environment:
+     - CONTEXT=vlss
+     - SERVER_PORT=8080 
+     - VENLIGLOGIN_PROFILESERVICE_URL=http://venliglogin-profileservice:8090/vlps
+     - PINCODE_LENGTH=4
+   venliglogin-webgui-saml-sp:
+     image: kitdocker.kvalitetsit.dk/kvalitetsit/serviceprovider-spapp:136a7e31f9304f6ac9d5186c45d5004ce8063459
+     volumes:
+      - ./vlss/config:/certificates
+      - ./config/metadata_broker_azure.xml:/app/config/metadata.xml
+     environment:
+      - IDP_LOGIN_URL=https://test.keycloak.kvalitetsit.dk/auth/realms/broker/protocol/saml
+      - CERTIFICATE=/certificates/vlss.cert
+      - KEY=/certificates/vlss.pem
+      - SP_ENTITY_ID=dev:kit:vlss
+      - SAML_LB_SCHEME=http
+      - SAML_LB_SERVERNAME=localhost
+      - SAML_LB_SERVERPORT=8083
+      - APP_CONTEXT=vlss
+      - MONGODB=mongo
+      - MONGODB_DATABASE=mongo_vlss
+   venliglogin-webgui-sp-proxy:
+     image: kitdocker.kvalitetsit.dk/kvalitetsit/serviceprovider-spproxy:efdd0ca4ca9723ebf0d97316b047e306b597b1f0
+     environment:
+      - ENDPOINT_URL=http://venliglogin-webgui:8080/
+      - SAML_URL=http://venliglogin-webgui-saml-sp:8080/
+      - CONTEXT=vlss
+      - MONGODB=mongo
+      - MONGODB_DATABASE=mongo_vlss
+      - CORRELATION_ID=correlation-id
+     ports:
+      - "8083:80"

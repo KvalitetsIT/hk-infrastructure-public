@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2016 Red Hat, Inc. and/or its affiliates
+  ~ and other contributors as indicated by the @author tags.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<EntitiesDescriptor Name="urn:keycloak" xmlns="urn:oasis:names:tc:SAML:2.0:metadata"
+					xmlns:dsig="http://www.w3.org/2000/09/xmldsig#">
+	<EntityDescriptor entityID="https://test.keycloak.kvalitetsit.dk/auth/realms/broker">
+		<IDPSSODescriptor WantAuthnRequestsSigned="true"
+			protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+                        <KeyDescriptor use="signing">
+                          <dsig:KeyInfo>
+                            <dsig:KeyName>yR1lniU7UQWggLyja2TbToIgzn3_jbkgkaEvKcVUXcg</dsig:KeyName>
+                            <dsig:X509Data>
+                              <dsig:X509Certificate>MIIDZTCCAk2gAwIBAgIEE2eeAjANBgkqhkiG9w0BAQsFADBjMQswCQYDVQQGEwJESzEQMA4GA1UECBMHRGVubWFyazEPMA0GA1UEBxMGQWFyaHVzMQwwCgYDVQQKEwNLSVQxDDAKBgNVBAsTA0tJVDEVMBMGA1UEAxMMTmlscyBKb2Vuc2VuMB4XDTE5MDQzMDEzMTg1MloXDTE5MDcyOTEzMTg1MlowYzELMAkGA1UEBhMCREsxEDAOBgNVBAgTB0Rlbm1hcmsxDzANBgNVBAcTBkFhcmh1czEMMAoGA1UEChMDS0lUMQwwCgYDVQQLEwNLSVQxFTATBgNVBAMTDE5pbHMgSm9lbnNlbjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAI1xtL7/0a2D4k8EHVHQE4aRXyZQtLgtJUJeou+bq0phs4SjNR0kA3p8BLw4pYoTyYtRmU0WDLGakxNRfV3+lNsh5x4MIsscO0MbVnWAYzQtGW88ap3uCFuqyRCZtq9HTQDBeoR/t/ZHDH1oqKUAZn+wPIgISgELKO8O8dulxvXfs1jGMlxy/pTA5jxHOwymMROHyPSJ4EgryKW28FN5GmXYF2j6qXR+ncDanecLQdG2l5jb5aXW0i1zWo8K3Fa3Lc9SmPJzl39eCO+jEGfxTJ9KMuIRVMJA2VQFohgLWnbpVu9NDjU59TWasKiyGgH6FD6x2RZtKEfR7f5g10w/goMCAwEAAaMhMB8wHQYDVR0OBBYEFK36AbuJsyLCyl8Tu/y77Hv68snPMA0GCSqGSIb3DQEBCwUAA4IBAQBF4P/kF6N3UYM3xAmu+9nw8rf90BV1FbRVz+EyHGj7GR81sowEGaCTebov9WjAJ5BfXwUZ2OA2s6IH4Q1gmlQhaenaV5aqYTweKsq3CPS/3y7U8XU1Tpsb5XZgO0n1zr0ULWYKpE4VeT30ynbzuvIr86X5Wiz+CaNaFxT5m+76pIVX0gDEI5wRhTrI9BRj6iQ/6zYC7y8kkLbu/vKWl0raZDM+f60HXMTLZl3L7EDAx01tInY7535hYO/4+bPOqOBgHw/L1B84lrhOBQ3XaRfPUdOeBYdVBYLEtmLu8aWnSvwxo+pOGVOADyZjlNYD7kdvFkiSkSPM0xOg6ZORmEuM</dsig:X509Certificate>
+                            </dsig:X509Data>
+                          </dsig:KeyInfo>
+                        </KeyDescriptor>
+
+			<SingleLogoutService
+					Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+					Location="https://test.keycloak.kvalitetsit.dk/auth/realms/broker/protocol/saml" />
+			<SingleLogoutService
+					Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+					Location="https://test.keycloak.kvalitetsit.dk/auth/realms/broker/protocol/saml" />
+			<NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</NameIDFormat>
+			<NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</NameIDFormat>
+			<NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</NameIDFormat>
+			<NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</NameIDFormat>
+			<SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+				Location="https://test.keycloak.kvalitetsit.dk/auth/realms/broker/protocol/saml" />
+			<SingleSignOnService
+				Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+				Location="https://test.keycloak.kvalitetsit.dk/auth/realms/broker/protocol/saml" />
+			<SingleSignOnService
+				Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP"
+				Location="https://test.keycloak.kvalitetsit.dk/auth/realms/broker/protocol/saml" />
+		</IDPSSODescriptor>
+	</EntityDescriptor>
+</EntitiesDescriptor>
