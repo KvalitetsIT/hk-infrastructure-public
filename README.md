@@ -14,10 +14,12 @@ Setuppet består af en række containere, beskrevet i filen docker-compose.yml, 
 
 ```
 .
-├── appa
-│   └── config
-│       ├── appa.cert
-│       └── appa.pem
+├── client
+│   ├── appa
+│   │   └── config
+│   │       ├── appa.cert
+│   │       └── appa.pem
+│   ├── docker-compose.yml
 ├── config
 │   └── metadata_broker_azure.xml
 ├── docker-compose.yml
@@ -38,19 +40,25 @@ Setuppet består af en række containere, beskrevet i filen docker-compose.yml, 
 ```
 
 Overordnet er filerne opdelt som følger:
-- appa: Nøglepar for test-applikation
 - config: Metadata for KeyCloak
 - venliglogin: Nøglepar for VenligLogin-idp samt metadata-filer.
 - vlss: Nøglepar for VenligLogin web-applikation
 
-Man starter setuppet med ved at køre:
+Man starter setuppet ved at køre:
 
 ```
 docker login kitdocker.kvalitetsit.dk (kun nødvendigt første gang)
 docker-compose up
 ```
 
-Når containerne er startet op, kan man afprøve setuppet ved at tilgå _http://localhost:8082/appa/_ i en browser. Når man logger ind første gang gennem VenligLogin, bliver man videresendt til KeyCloak:
+Når containerne er startet op, kan man afprøve setuppet med testapplikationen i _client_-folderen.
+
+```
+cd client
+docker-compose up
+```
+
+Når containerne er oppe tilgår man _http://localhost:8082/appa/_ i en browser. Når man logger ind første gang gennem VenligLogin, bliver man videresendt til KeyCloak:
 
 ![keycloak](images/keycloak_login.png)
 
