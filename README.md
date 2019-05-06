@@ -2,7 +2,7 @@
 
 Denne vejledning beskriver hvordan man får VenligLogin til at køre. VenligLogin er en identity provider (IdP), som tillader brugeren autentificere sit device én gang mod en anden IdP, og derefter logge ind med en pinkode.
 
-VenligLogin er organiseret som en række services, der deployes i Docker-containere. Vejledningen viser hvordan man får disse containere til at køre i et docker-compose setup. Det er dog op til driftleverandøren selv at afgøre, hvordan man i praksis ønsker at køre containerne.
+VenligLogin er organiseret som en række services, der deployes i Docker-containere. Vejledningen viser hvordan man får disse containere til at køre i et docker-compose setup. Det er dog op til driftleverandøren selv at afgøre, hvordan man i praksis ønsker at køre containerne. Som minimum skal mysql databasens data persisteres udover containerens levetid. 
 
 ## Forudsætninger
 For at køre setuppet har man brug for at have [Docker Community Edition](https://docs.docker.com/install/) installeret. 
