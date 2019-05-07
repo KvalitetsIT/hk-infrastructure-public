@@ -73,7 +73,7 @@ services:
       - ./vlss/config:/certificates
       - ./config/metadata_broker_azure.xml:/app/config/metadata.xml
      environment:
-      - IDP_LOGIN_URL=https://test.keycloak.kvalitetsit.dk/auth/realms/broker/protocol/saml
+      - IDP_LOGIN_URL=https://test-keycloak.kvalitetsit.dk/auth/realms/broker/protocol/saml
       - CERTIFICATE=/certificates/vlss.cert
       - KEY=/certificates/vlss.pem
       - SP_ENTITY_ID=dev:kit:vlss

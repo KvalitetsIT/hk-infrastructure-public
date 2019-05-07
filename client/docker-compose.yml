@@ -31,7 +31,7 @@ services:
       - CORRELATION_ID=correlation-id
      ports:
       - "8082:80"
- networks:
+networks:
    default:
      external:
        name: hk-infrastructure-public_default
