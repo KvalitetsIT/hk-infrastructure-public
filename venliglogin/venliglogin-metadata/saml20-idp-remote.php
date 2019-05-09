@@ -1,8 +1,8 @@
 <?php
 
-$metadata['https://test-keycloak.kvalitetsit.dk/auth/realms/broker'] = array (
+$metadata['https://keycloak.kvalitetsit.dk/auth/realms/broker'] = array (
   'selectid' => 'default',
-  'entityid' => 'https://test-keycloak.kvalitetsit.dk/auth/realms/broker',
+  'entityid' => 'https://keycloak.kvalitetsit.dk/auth/realms/broker',
   'contacts' => 
   array (
   ),
@@ -13,17 +13,17 @@ $metadata['https://test-keycloak.kvalitetsit.dk/auth/realms/broker'] = array (
     0 => 
     array (
       'Binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
-      'Location' => 'https://test-keycloak.kvalitetsit.dk/auth/realms/broker/protocol/saml',
+      'Location' => 'https://keycloak.kvalitetsit.dk/auth/realms/broker/protocol/saml',
     ),
     1 => 
     array (
       'Binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
-      'Location' => 'https://test-keycloak.kvalitetsit.dk/auth/realms/broker/protocol/saml',
+      'Location' => 'https://keycloak.kvalitetsit.dk/auth/realms/broker/protocol/saml',
     ),
     2 => 
     array (
       'Binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:SOAP',
-      'Location' => 'https://test-keycloak.kvalitetsit.dk/auth/realms/broker/protocol/saml',
+      'Location' => 'https://keycloak.kvalitetsit.dk/auth/realms/broker/protocol/saml',
     ),
   ),
   'SingleLogoutService' => 
@@ -31,12 +31,12 @@ $metadata['https://test-keycloak.kvalitetsit.dk/auth/realms/broker'] = array (
     0 => 
     array (
       'Binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
-      'Location' => 'https://test-keycloak.kvalitetsit.dk/auth/realms/broker/protocol/saml',
+      'Location' => 'https://keycloak.kvalitetsit.dk/auth/realms/broker/protocol/saml',
     ),
     1 => 
     array (
       'Binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
-      'Location' => 'https://test-keycloak.kvalitetsit.dk/auth/realms/broker/protocol/saml',
+      'Location' => 'https://keycloak.kvalitetsit.dk/auth/realms/broker/protocol/saml',
     ),
   ),
   'ArtifactResolutionService' => 

@@ -142,9 +142,9 @@ For at generere filerne gøres som beskrivet i det følgende.
 Åbn metadata-converteren, og indsæt indholdet af KeyCloak metadata-filen. Åbn den udleverede saml20-idp-remote.php-fil, og erstat den øverste metadata-entry (linje 3), med outputtet fra værktøjet. Der skal tilføjes en selectid-attribut i konfigurationen, som følger (linje to i eksemplet):
 
 ```
-$metadata['https://test-keycloak.kvalitetsit.dk/auth/realms/broker'] = array (
+$metadata['https://keycloak.kvalitetsit.dk/auth/realms/broker'] = array (
   'selectid' => 'default',
-  'entityid' => 'https://test-keycloak.kvalitetsit.dk/auth/realms/broker',
+  'entityid' => 'https://keycloak.kvalitetsit.dk/auth/realms/broker',
 ```
 
 Hent metadata for VenligLogin på http://localhost:8092/venliglogin-auth/saml2/idp/metadata.php, hvor _http://localhost:8092_ erstattes med den adresse, hvor VenligLogin skal køre. Erstat den nederste metadata-entry i saml20-idp-remote.php med outputtet fra værktøjet. Der skal igen tilføjes en selectid-attribut i konfigurationen, som følger (linje to i eksemplet):
